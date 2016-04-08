@@ -9,13 +9,55 @@ defmodule Slab.LexerTest do
 
   # .tokenize/1
 
-  test "handles indents" do
-    "  "   ~> [indent: 2]
-    "    " ~> [indent: 4]
-    "  b"  ~> [indent: 2, word: 'b']
+  test "tags" do
+    "h1" ~> [
+      {:indent, 0, 0},
+      {:tag, 0, 'h1'},
+    ]
+    "  h1" ~> [
+      {:indent, 0, 2},
+      {:tag, 0, 'h1'},
+    ]
   end
 
-  test "tags" do
-    "  b Hi" ~> [indent: 2, word: 'b', word: 'Hi']
+  test "ids" do
+    "#foo" ~> [
+      {:indent, 0, 0},
+      {:id, 0, 'foo'},
+    ]
+    "#xx#yy" ~> [
+      {:indent, 0, 0},
+      {:id, 0, 'xx'},
+      {:id, 0, 'yy'},
+    ]
+    "#who-what_slimSHADY" ~> [
+      {:indent, 0, 0},
+      {:id, 0, 'who-what_slimSHADY'},
+    ]
+  end
+
+  test "class literal" do
+    ".bar" ~> [
+      {:indent, 0, 0},
+      {:class, 0, 'bar'},
+    ]
+    ".x.y" ~> [
+      {:indent, 0, 0},
+      {:class, 0, 'x'},
+      {:class, 0, 'y'},
+    ]
+    ".WHAT-where__when" ~> [
+      {:indent, 0, 0},
+      {:class, 0, 'WHAT-where__when'},
+    ]
+  end
+
+  @tag :skip
+  test "tags with text content" do
+    "div Hello, world!" ~> [
+      {:indent, 0, 0},
+      {:tag, 0, 'div'},
+      # something here.
+    ]
   end
 end
