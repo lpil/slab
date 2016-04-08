@@ -15,11 +15,12 @@ defmodule Slab.Mixfile do
       name: "Slab",
       source_url: "https://github.com/lpil/slab",
       description: "Lightweight HTML templates",
+      files: ~w(lib src mix.exs README* LICENSE*),
       package: [
         maintainers: ["Louis Pilfold"],
         licenses: ["MIT"],
         links: %{ "GitHub" => "https://github.com/lpil/slab" },
-      ]
+      ],
     ]
   end
 
