@@ -1,0 +1,2 @@
+defmodule Slab do
+end
