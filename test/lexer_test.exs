@@ -1,9 +1,9 @@
 defmodule Slab.LexerTest do
   use ExUnit.Case
 
-  defmacro slime ~> tokens do
+  defmacro text ~> tokens do
     quote bind_quoted: binding do
-      assert Slab.Lexer.tokenize(slime) == tokens
+      assert Slab.Lexer.tokenize(text) == tokens
     end
   end
 
@@ -57,7 +57,7 @@ defmodule Slab.LexerTest do
     "div Hello, world!" ~> [
       {:indent, 0, 0},
       {:tag, 0, 'div'},
-      # something here.
+      {:text, 0, 'Hello, world!'}, # How can I do something like this?
     ]
   end
 end
