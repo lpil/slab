@@ -1,13 +1,14 @@
 Nonterminals
-class id labels tag intented_tag element elements text textbit.
+grammar class id labels tag intented_tag element text textbit base_node.
 Terminals '.' '#' nl name word s.
-Rootsymbol elements.
+Rootsymbol grammar.
 
-elements -> element          : ['$1'].
-elements -> element elements : ['$1'|'$2'].
+grammar -> base_node          : ['$1'].
+grammar -> base_node grammar  : ['$1'|'$2'].
 
-element -> nl :
-           nl.
+base_node -> nl      : nl.
+base_node -> element : '$1'.
+
 element -> intented_tag :
            {I, {T, L}} = '$1',
            elem(#{ type   => T,

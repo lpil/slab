@@ -1,9 +1,11 @@
 Definitions.
 
 Name   = [A-Za-z][A-Za-z0-9_-]*
-Word   = [^\t\s\n\.#]+
+Word   = [^\t\s\n\.#"=]+
+DQuote = "
 Space  = \s
 Dot    = \.
+Equals = =
 Hash   = #
 NL     = \n
 WS     = [\r\t]
@@ -11,6 +13,8 @@ WS     = [\r\t]
 Rules.
 
 {Dot}    : {token, {'.',  TokenLine}}.
+{DQuote} : {token, {'"',  TokenLine}}.
+{Equals} : {token, {'=',  TokenLine}}.
 {Hash}   : {token, {'#',  TokenLine}}.
 {NL}     : {token, {nl,   TokenLine}}.
 {Name}   : {token, {name, TokenLine, TokenChars}}.

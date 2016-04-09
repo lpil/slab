@@ -88,4 +88,16 @@ defmodule Slab.LexerTest do
       {:name, 1, 'div'},
     ]
   end
+
+  test "attrs" do
+    ~s(a href="foo") ~> [
+      {:name, 1, 'a'},
+      {:s,    1, ' ', 1},
+      {:name, 1, 'href'},
+      {:=,    1},
+      {:'"',    1},
+      {:name, 1, 'foo'},
+      {:'"',    1},
+    ]
+  end
 end
