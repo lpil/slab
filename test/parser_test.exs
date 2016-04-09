@@ -14,19 +14,10 @@ defmodule Slab.ParserTest do
   end
 
 
-  test "class" do
-    print ".foo"
-  end
-
-  test "id" do
-    print "#foo"
-  end
-
-  test "ids" do
-    print "#foo#bar"
-  end
-
   test "classes" do
-    print ".foo.bar"
+    print """
+    #who.what
+    div
+    """
   end
 end
