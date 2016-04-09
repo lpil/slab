@@ -3,7 +3,8 @@ defmodule Slab.Element do
   A node in the HTML tree
   """
 
-  defstruct type:   'div',
-            labels: [],
-            indent: 0
+  defstruct indent:   0,
+            type:     'div',
+            labels:   [],
+            children: []
 end

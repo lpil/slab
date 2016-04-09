@@ -7,15 +7,13 @@ defmodule Slab.LexerTest do
     end
   end
 
-  # .tokenize/1
-
   test "tags" do
     "h1" ~> [
       {:name, 1, 'h1'},
     ]
     "  h1" ~> [
-      {:spaces, 1, 2},
-      {:name,   1, 'h1'},
+      {:s,    1, '  ', 2},
+      {:name, 1, 'h1'},
     ]
   end
 
@@ -48,25 +46,25 @@ defmodule Slab.LexerTest do
       {:name, 1, 'y'},
     ]
     ".WHAT-where__when" ~> [
-      {:., 1},
-      {:name,   1, 'WHAT-where__when'},
+      {:.,    1},
+      {:name, 1, 'WHAT-where__when'},
     ]
   end
 
   test "tags with text content" do
     "div Hello, world!" ~> [
-      {:name,   1, 'div'},
-      {:spaces, 1, 1},
-      {:word,   1, 'Hello,'},
-      {:spaces, 1, 1},
-      {:word,   1, 'world!'},
+      {:name, 1, 'div'},
+      {:s,    1, ' ', 1},
+      {:word, 1, 'Hello,'},
+      {:s,    1, ' ', 1},
+      {:word, 1, 'world!'},
     ]
     "div I'm spartacus" ~> [
-      {:name,   1, 'div'},
-      {:spaces, 1, 1},
-      {:word,   1, 'I\'m'},
-      {:spaces, 1, 1},
-      {:name,   1, 'spartacus'},
+      {:name, 1, 'div'},
+      {:s,    1, ' ', 1},
+      {:word, 1, 'I\'m'},
+      {:s,    1, ' ', 1},
+      {:name, 1, 'spartacus'},
     ]
   end
 
@@ -75,12 +73,12 @@ defmodule Slab.LexerTest do
     div
       h1 Hi!
     """ ~> [
-      {:name,   1, 'div'},
-      {:nl,     1},
-      {:spaces, 2, 2},
-      {:name,   2, 'h1'},
-      {:spaces, 2, 1},
-      {:word,   2, 'Hi!'},
+      {:name, 1, 'div'},
+      {:nl,   1},
+      {:s,    2, '  ', 2},
+      {:name, 2, 'h1'},
+      {:s,    2, ' ',  1},
+      {:word, 2, 'Hi!'},
     ]
   end
 

@@ -10,12 +10,12 @@ WS     = [\r\t]
 
 Rules.
 
-{Dot}    : {token, {'.',    TokenLine}}.
-{Hash}   : {token, {'#',    TokenLine}}.
-{NL}     : {token, {nl,     TokenLine}}.
-{Name}   : {token, {name,   TokenLine, TokenChars}}.
-{Word}   : {token, {word,   TokenLine, TokenChars}}.
-{Space}+ : {token, {spaces, TokenLine, length(TokenChars)}}.
+{Dot}    : {token, {'.',  TokenLine}}.
+{Hash}   : {token, {'#',  TokenLine}}.
+{NL}     : {token, {nl,   TokenLine}}.
+{Name}   : {token, {name, TokenLine, TokenChars}}.
+{Word}   : {token, {word, TokenLine, TokenChars}}.
+{Space}+ : {token, {s,    TokenLine, TokenChars, length(TokenChars)}}.
 {WS}     : skip_token.
 
 Erlang code.
