@@ -83,4 +83,10 @@ defmodule Slab.LexerTest do
       {:word,   2, 'Hi!'},
     ]
   end
+
+  test "other whitespace is ignored" do
+    "\tdiv" ~> [
+      {:name, 1, 'div'},
+    ]
+  end
 end

@@ -1,7 +1,7 @@
 Definitions.
 
 Name   = [A-Za-z][A-Za-z0-9_-]*
-Word   = [^\s\n\.#]+
+Word   = [^\t\s\n\.#]+
 Space  = \s
 Dot    = \.
 Hash   = #
@@ -16,7 +16,7 @@ Rules.
 {Name}   : {token, {name,   TokenLine, TokenChars}}.
 {Word}   : {token, {word,   TokenLine, TokenChars}}.
 {Space}+ : {token, {spaces, TokenLine, length(TokenChars)}}.
-
+{WS}     : skip_token.
 
 Erlang code.
 
