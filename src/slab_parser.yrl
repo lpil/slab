@@ -1,28 +1,30 @@
-Nonterminals class id labels tag intented_tag element elements text textbit.
+Nonterminals
+class id labels tag intented_tag element elements text textbit.
 Terminals '.' '#' nl name word s.
 Rootsymbol elements.
 
 elements -> element             : ['$1'].
-elements -> element nl elements : ['$1'|'$3'].
+elements -> element nl elements : ['$1', nl|'$3'].
 
 element -> intented_tag :
            {I, {T, L}} = '$1',
-           elem(#{ type => T,
+           elem(#{ type   => T,
                    labels => L,
                    indent => I
                  }).
 element -> intented_tag s text :
            {I, {T, L}} = '$1',
-           elem(#{ type     => T,
-                   labels   => L,
-                   indent   => I,
-                   children => [{text, '$3'}]
+           elem(#{ type   => T,
+                   labels => L,
+                   indent => I,
+                   text   => with_spaces('$2','$3')
                  }).
 
+%                       {indent_size, tag_tuple}
 intented_tag ->   tag : {0,                 '$1'}.
 intented_tag -> s tag : {indent_size('$1'), '$2'}.
 
-tag -> name        : {value('$1'), []}.
+tag -> name        : {value('$1'), ""}.
 tag -> labels      : {"div",       '$1'}.
 tag -> name labels : {value('$1'), '$2'}.
 
@@ -51,5 +53,10 @@ value({_, _, V, _}) -> V.
 
 indent_size({_, _, _, V}) -> V.
 
+with_spaces({s, _, _, Size}, T) when Size < 2 ->
+    T;
+with_spaces({s, _, S, _}, T) ->
+    tl(S) ++ T.
+
 elem(Map) ->
-    'Elixir.Kernel':struct('Elixir.Slab.Element', Map).
+    'Elixir.Kernel':struct('Elixir.Slab.ParserElement', Map).
