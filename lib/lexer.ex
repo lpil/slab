@@ -6,7 +6,6 @@ defmodule Slab.Lexer do
   def tokenize(document) when is_binary(document) do
     document
     |> strip_trailing_newlines
-    |> prefix_newline
     |> to_char_list
     |> tokenize
   end
@@ -16,13 +15,6 @@ defmodule Slab.Lexer do
     tokens
   end
 
-
-  defp prefix_newline(<< ?\n::utf8 , _rest::utf8 >> = string) do
-    string
-  end
-  defp prefix_newline(string) when is_binary(string) do
-    "\n" <> string
-  end
 
   defp strip_trailing_newlines(document) when is_binary(document) do
     String.replace( document, ~r/\n+\z/, "" )
