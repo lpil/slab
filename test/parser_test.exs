@@ -16,7 +16,9 @@ defmodule Slab.ParserTest do
 
   test "classes" do
     print """
-      div Now hello there father! How are you today?
+    h3 heh
+      h3 f
+    h3
     """
   end
 end

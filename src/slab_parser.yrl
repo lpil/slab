@@ -1,23 +1,26 @@
-Nonterminals class id labels tag element elements text textbit.
+Nonterminals class id labels tag intented_tag element elements text textbit.
 Terminals '.' '#' nl name word s.
 Rootsymbol elements.
 
 elements -> element             : ['$1'].
 elements -> element nl elements : ['$1'|'$3'].
 
-element -> tag :
-           {T, L} = '$1',
-           elem(#{ type => T, labels => L, indent => 0}).
-element -> s tag :
-           {T, L} = '$2',
-           elem(#{ type => T, labels => L, indent => indent_size('$1')}).
-element -> s tag s text :
-           {T, L} = '$2',
+element -> intented_tag :
+           {I, {T, L}} = '$1',
+           elem(#{ type => T,
+                   labels => L,
+                   indent => I
+                 }).
+element -> intented_tag s text :
+           {I, {T, L}} = '$1',
            elem(#{ type     => T,
                    labels   => L,
-                   indent   => indent_size('$1'),
-                   children => [{text, '$4'}]
+                   indent   => I,
+                   children => [{text, '$3'}]
                  }).
+
+intented_tag ->   tag : {0,                 '$1'}.
+intented_tag -> s tag : {indent_size('$1'), '$2'}.
 
 tag -> name        : {value('$1'), []}.
 tag -> labels      : {"div",       '$1'}.
