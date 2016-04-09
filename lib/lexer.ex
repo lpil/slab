@@ -1,16 +1,16 @@
 defmodule Slab.Lexer do
   @moduledoc """
-  Leex based lexing of Slab documents. See src/slab_lexer.xrl for details.
+  Leex based lexing of Slab documents. See `src/slab_lexer.xrl` for details.
   """
 
-  def tokenize(document) when is_binary(document) do
+  def tokenize!(document) when is_binary(document) do
     document
     |> strip_trailing_newlines
     |> to_char_list
-    |> tokenize
+    |> tokenize!
   end
 
-  def tokenize(document) when is_list(document) do
+  def tokenize!(document) when is_list(document) do
     {:ok, tokens, _} = document |> :slab_lexer.string
     tokens
   end

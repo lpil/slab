@@ -3,7 +3,7 @@ defmodule Slab.LexerTest do
 
   defmacro text ~> tokens do
     quote bind_quoted: binding do
-      assert Slab.Lexer.tokenize(text) == tokens
+      assert Slab.Lexer.tokenize!(text) == tokens
     end
   end
 

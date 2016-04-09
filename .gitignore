@@ -4,3 +4,4 @@
 erl_crash.dump
 *.ez
 src/slab_lexer.erl
+src/slab_parser.erl
