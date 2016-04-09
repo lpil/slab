@@ -1,28 +1,16 @@
-Nonterminals
-class id labels element elements.
-
-
-Terminals
-'.' '#' nl name word spaces.
-
-
+Nonterminals class id labels element elements.
+Terminals '.' '#' nl name word spaces.
 Rootsymbol elements.
 
 elements -> element             : ['$1'].
 elements -> element nl elements : ['$1'|'$3'].
 
-element -> name :
-           #{'__struct__' => 'Elixir.Slab.Element',
-             type   => value('$1'),
-             labels => [],
-             indent => 0
-            }.
-element -> labels :
-           #{'__struct__' => 'Elixir.Slab.Element',
-             type   => "div",
-             labels => '$1',
-             indent => 0
-            }.
+element -> name : elem(#{
+             type => value('$1')
+            }).
+element -> labels : elem(#{
+             labels => '$1'
+            }).
 
 labels -> class :
           [{class, '$1'}].
@@ -66,3 +54,6 @@ value({_, _, V}) -> V.
 
 split_labels(labels) ->
     'Elixir.Enum':group_by(fun({Type, _}) -> Type end).
+
+elem(Map) ->
+    'Elixir.Kernel':struct('Elixir.Slab.Element', Map).
