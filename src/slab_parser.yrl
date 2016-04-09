@@ -7,7 +7,10 @@ elements -> element nl elements : ['$1'|'$3'].
 
 element -> tag :
            {T, L} = '$1',
-           elem(#{ type => T, labels => L }).
+           elem(#{ type => T, labels => L, indent => 0}).
+element -> spaces tag :
+           {T, L} = '$2',
+           elem(#{ type => T, labels => L, indent => value('$1')}).
 
 tag -> name        : {value('$1'), []}.
 tag -> labels      : {"div",       '$1'}.
