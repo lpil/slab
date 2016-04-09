@@ -16,7 +16,7 @@ defmodule Slab.ParserTest do
 
   test "classes" do
     print """
-    #who.what
+    h1#who.what
     div
     """
   end

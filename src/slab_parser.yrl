@@ -11,6 +11,10 @@ element -> name : elem(#{
 element -> labels : elem(#{
              labels => '$1'
             }).
+element -> name labels : elem(#{
+             type => value('$1'),
+             labels => '$2'
+            }).
 
 labels -> class :
           [{class, '$1'}].
