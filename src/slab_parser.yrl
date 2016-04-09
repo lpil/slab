@@ -1,29 +1,22 @@
-Nonterminals class id labels element elements.
+Nonterminals class id labels tag element elements.
 Terminals '.' '#' nl name word spaces.
 Rootsymbol elements.
 
 elements -> element             : ['$1'].
 elements -> element nl elements : ['$1'|'$3'].
 
-element -> name : elem(#{
-             type => value('$1')
-            }).
-element -> labels : elem(#{
-             labels => '$1'
-            }).
-element -> name labels : elem(#{
-             type => value('$1'),
-             labels => '$2'
-            }).
+element -> tag :
+           {T, L} = '$1',
+           elem(#{ type => T, labels => L }).
 
-labels -> class :
-          [{class, '$1'}].
-labels -> id :
-          [{id, '$1'}].
-labels -> id labels :
-          [{id, '$1'}|'$2'].
-labels -> class labels :
-          [{class, '$1'}|'$2'].
+tag -> name        : {value('$1'), []}.
+tag -> labels      : {"div",       '$1'}.
+tag -> name labels : {value('$1'), '$2'}.
+
+labels -> class        : [{class, '$1'}].
+labels -> id           : [{id,    '$1'}].
+labels -> id labels    : [{id,    '$1'}|'$2'].
+labels -> class labels : [{class, '$1'}|'$2'].
 
 class -> '.' name : value('$2').
 id    -> '#' name : value('$2').

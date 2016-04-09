@@ -18,6 +18,7 @@ defmodule Slab.ParserTest do
     print """
     h1#who.what
     div
+    #main
     """
   end
 end
