@@ -4,19 +4,11 @@ defmodule Slab.Lexer do
   """
 
   def tokenize!(document) when is_binary(document) do
-    document
-    |> strip_trailing_newlines
-    |> to_char_list
-    |> tokenize!
+    document |> to_char_list |> tokenize!
   end
 
   def tokenize!(document) when is_list(document) do
     {:ok, tokens, _} = document |> :slab_lexer.string
     tokens
-  end
-
-
-  defp strip_trailing_newlines(document) when is_binary(document) do
-    String.replace( document, ~r/\n+\z/, "" )
   end
 end

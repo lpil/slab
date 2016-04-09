@@ -79,6 +79,7 @@ defmodule Slab.LexerTest do
       {:name, 2, 'h1'},
       {:s,    2, ' ',  1},
       {:word, 2, 'Hi!'},
+      {:nl,   2},
     ]
   end
 

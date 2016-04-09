@@ -3,9 +3,11 @@ class id labels tag intented_tag element elements text textbit.
 Terminals '.' '#' nl name word s.
 Rootsymbol elements.
 
-elements -> element             : ['$1'].
-elements -> element nl elements : ['$1', nl|'$3'].
+elements -> element          : ['$1'].
+elements -> element elements : ['$1'|'$2'].
 
+element -> nl :
+           nl.
 element -> intented_tag :
            {I, {T, L}} = '$1',
            elem(#{ type   => T,

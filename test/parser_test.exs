@@ -31,23 +31,41 @@ defmodule Slab.ParserTest do
     """ ~> [
       %E{labels: [], type: 'h1', text: 'o'  }, :nl,
       %E{labels: [], type: 'h2', text: ' o' }, :nl,
-      %E{labels: [], type: 'h3', text: '  o'},
+      %E{labels: [], type: 'h3', text: '  o'}, :nl,
     ]
   end
 
   test "classes and ids" do
     """
-    .hi Yo
     #there
-    .c#i
+    .hi Yo
     a.you
     b#today
+    .c#i
     """ ~> [
-      %E{labels: [class: 'hi'], text: 'Yo' }, :nl,
-      %E{labels: [id: 'there']             }, :nl,
-      %E{labels: [class: 'c', id: 'i']     }, :nl,
-      %E{labels: [class: 'you'], type: 'a' }, :nl,
-      %E{labels: [id: 'today'],  type: 'b' },
+      %E{labels: [id: 'there']              }, :nl,
+      %E{labels: [class: 'hi'],  text: 'Yo' }, :nl,
+      %E{labels: [class: 'you'], type: 'a'  }, :nl,
+      %E{labels: [id: 'today'],  type: 'b'  }, :nl,
+      %E{labels: [class: 'c', id: 'i']      }, :nl,
+    ]
+  end
+
+  test "indentation" do
+    """
+    yes
+      no
+        maybe
+      I
+    dont
+          know
+    """ ~> [
+      %E{indent: 0, type: 'yes'   }, :nl,
+      %E{indent: 2, type: 'no'    }, :nl,
+      %E{indent: 4, type: 'maybe' }, :nl,
+      %E{indent: 2, type: 'I'     }, :nl,
+      %E{indent: 0, type: 'dont'  }, :nl,
+      %E{indent: 6, type: 'know'  }, :nl,
     ]
   end
 end
