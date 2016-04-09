@@ -68,4 +68,18 @@ defmodule Slab.ParserTest do
       %E{indent: 6, type: 'know'  }, :nl,
     ]
   end
+
+  test "text with double quotes" do
+    text = 'They said "what?". With quotes. "". Like this -> "'
+    "h1 #{text}" ~> [
+      %E{indent: 0, type: 'h1', text: text },
+    ]
+  end
+
+  test "text with =" do
+    text = ' == !=== =:= Huh?'
+    "h1 #{text}" ~> [
+      %E{indent: 0, type: 'h1', text: text },
+    ]
+  end
 end

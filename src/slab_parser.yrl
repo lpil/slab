@@ -1,6 +1,6 @@
 Nonterminals
 grammar class id labels tag intented_tag element text textbit base_node.
-Terminals '.' '#' nl name word s.
+Terminals '"' '=' '.' '#' nl name word s.
 Rootsymbol grammar.
 
 grammar -> base_node          : ['$1'].
@@ -20,7 +20,7 @@ element -> intented_tag s text :
            elem(#{ type   => T,
                    labels => L,
                    indent => I,
-                   text   => with_spaces('$2','$3')
+                   text   => text_spaces('$2','$3')
                  }).
 
 %                       {indent_size, tag_tuple}
@@ -31,14 +31,16 @@ tag -> name        : {value('$1'), ""}.
 tag -> labels      : {"div",       '$1'}.
 tag -> name labels : {value('$1'), '$2'}.
 
-text -> textbit      : lists:flatten('$1').
-text -> textbit text : lists:flatten(['$1'|'$2']).
+text -> textbit      : '$1'.
+text -> textbit text : '$1' ++ '$2'.
 
-textbit -> '.'         : ["."].
-textbit -> '#'         : ["#"].
-textbit -> s           : [value('$1')].
-textbit -> name        : [value('$1')].
-textbit -> word        : [value('$1')].
+textbit -> '.'         : ".".
+textbit -> '='         : "=".
+textbit -> '"'         : [$"].
+textbit -> '#'         : "#".
+textbit -> s           : value('$1').
+textbit -> name        : value('$1').
+textbit -> word        : value('$1').
 
 labels -> id           : [{id,    '$1'}].
 labels -> id labels    : [{id,    '$1'}|'$2'].
@@ -56,9 +58,9 @@ value({_, _, V, _}) -> V.
 
 indent_size({_, _, _, V}) -> V.
 
-with_spaces({s, _, _, Size}, T) when Size < 2 ->
+text_spaces({s, _, _, Size}, T) when Size < 2 ->
     T;
-with_spaces({s, _, S, _}, T) ->
+text_spaces({s, _, S, _}, T) ->
     tl(S) ++ T.
 
 elem(Map) ->
