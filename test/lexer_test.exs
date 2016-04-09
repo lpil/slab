@@ -11,53 +11,55 @@ defmodule Slab.LexerTest do
 
   test "tags" do
     "h1" ~> [
-      {:indent, 0, 0},
-      {:tag, 0, 'h1'},
+      {:name, 1, 'h1'},
     ]
     "  h1" ~> [
-      {:indent, 0, 2},
-      {:tag, 0, 'h1'},
+      {:spaces, 1, 2},
+      {:name,   1, 'h1'},
     ]
   end
 
   test "ids" do
     "#foo" ~> [
-      {:indent, 0, 0},
-      {:id, 0, 'foo'},
+      {:prefix, 1, '#'},
+      {:name,   1, 'foo'},
     ]
     "#xx#yy" ~> [
-      {:indent, 0, 0},
-      {:id, 0, 'xx'},
-      {:id, 0, 'yy'},
+      {:prefix, 1, '#'},
+      {:name,   1, 'xx'},
+      {:prefix, 1, '#'},
+      {:name,   1, 'yy'},
     ]
     "#who-what_slimSHADY" ~> [
-      {:indent, 0, 0},
-      {:id, 0, 'who-what_slimSHADY'},
+      {:prefix, 1, '#'},
+      {:name,   1, 'who-what_slimSHADY'},
     ]
   end
 
   test "class literal" do
     ".bar" ~> [
-      {:indent, 0, 0},
-      {:class, 0, 'bar'},
+      {:prefix, 1, '.'},
+      {:name,   1, 'bar'},
     ]
     ".x.y" ~> [
-      {:indent, 0, 0},
-      {:class, 0, 'x'},
-      {:class, 0, 'y'},
+      {:prefix, 1, '.'},
+      {:name,   1, 'x'},
+      {:prefix, 1, '.'},
+      {:name,   1, 'y'},
     ]
     ".WHAT-where__when" ~> [
-      {:indent, 0, 0},
-      {:class, 0, 'WHAT-where__when'},
+      {:prefix, 1, '.'},
+      {:name,   1, 'WHAT-where__when'},
     ]
   end
 
-  @tag :skip
   test "tags with text content" do
     "div Hello, world!" ~> [
-      {:indent, 0, 0},
-      {:tag, 0, 'div'},
-      {:text, 0, 'Hello, world!'}, # How can I do something like this?
+      {:name,   1, 'div'},
+      {:spaces, 1, 1},
+      {:word,   1, 'Hello,'},
+      {:spaces, 1, 1},
+      {:word,   1, 'world!'},
     ]
   end
 end

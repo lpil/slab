@@ -1,24 +1,21 @@
 Definitions.
 
 Indent = \n\s*
-WS     = \s
+Prefix = [\.#]
 Name   = [A-Za-z][A-Za-z0-9_-]*
-A      = [^\s]
+Word   = [^\n\t\s\.#]+
+Space  = \s
+WS     = [\n\t]
 
 Rules.
 
-{Indent} : {token, {indent, TokenLine - 1, indent_value(TokenChars)}}.
-\.{Name} : {token, {class,  TokenLine - 2, tl(TokenChars)}}.
-#{Name}  : {token, {id,     TokenLine - 2, tl(TokenChars)}}.
-{Name}   : {token, {tag,    TokenLine - 2, TokenChars}}.
-
-% This rule is too greedy...
-% {A}+     : {token, {text,   TokenLine - 2, TokenChars}}.
-
-{WS}+    : skip_token.
+{Prefix} : {token, {prefix, TokenLine - 1, TokenChars}}.
+{Name}   : {token, {name,   TokenLine - 1, TokenChars}}.
+{Word}   : {token, {word,   TokenLine - 1, TokenChars}}.
+{Space}+ : {token, {spaces, TokenLine - 1, length(TokenChars)}}.
+{WS}     : skip_token.
 
 
 Erlang code.
 
-indent_value(Chars) ->
-  length(tl(Chars)).
+% Nothing here...
