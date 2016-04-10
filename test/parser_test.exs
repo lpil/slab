@@ -16,11 +16,20 @@ defmodule Slab.ParserTest do
   end
 
 
-  test "dev printing" do
-    print """
-    h3 f
-    h3  f
+  test "attributes" do
     """
+    div who="shady"
+    div f="ada" l="lovelace"
+    """ ~> [
+      %E{ attributes: [{'who', 'shady'}] }, :nl,
+      %E{ attributes: [{'f', 'ada'}, {'l', 'lovelace'}] }, :nl,
+    ]
+  end
+
+  test "attributes with text" do
+    ~s(div who="shady" !! What now?) ~> [
+      %E{ attributes: [{'who', 'shady'}], text: '!! What now?' },
+    ]
   end
 
   test "preceeding spaces" do

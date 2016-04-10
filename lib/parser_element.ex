@@ -6,5 +6,6 @@ defmodule Slab.ParserElement do
   defstruct indent: 0,
             type:   'div',
             text:   '',
-            labels: []
+            labels: [],
+            attributes: []
 end
